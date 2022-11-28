@@ -33,8 +33,8 @@ function affichImage(imageUrl, altTxt) {
   if (parent != null) parent.appendChild(image)*/
   const newImage = document.createElement("img")
   newImage.id = "newImage"
-  //image.src = imageUrl
-  //image.altTxt = altTxt
+  image.src = imageUrl
+  image.altTxt = altTxt
   newImage.appendChild(image.src, image.altTxt)
   const image2 = document.querySelector(".item__img")
   const parentDiv = image2.parentNode
