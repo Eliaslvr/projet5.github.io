@@ -266,3 +266,9 @@ footer .footerSecondary {
 		width: 75%;
 	}
 }
+
+a {
+	text-decoration: none;
+	text-align: none;
+	color: white;
+}

@@ -119,3 +119,9 @@
 		width: 90%;
 	}
 }
+
+a {
+	text-decoration: none;
+	text-align: none;
+	color: white;
+}
