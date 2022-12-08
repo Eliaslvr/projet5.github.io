@@ -19,11 +19,19 @@ function getArticle() {
                                                       <option value="">${afficheArticleUni.colors[0]}</option>
                                                       <option value="">${afficheArticleUni.colors[1]}</option>
                                                       <option value="">${afficheArticleUni.colors[2]}</option> `
+        /*let colorsSelect = document.querySelector("#colors")
+        let colorsChoice = afficheArticleUni.colors*/
         }                                    
       )
       
-  }
-
+    }
+    /*let colorsSelect = document.querySelector("#colors")
+    //let colorsFetch = 
+    let colorsId = `http://localhost:3000/api/products/${articlId}` 
+    console.log(colorsId)
+    let colorsChoice = colorsId.colors
+    console.log(colorsChoice)*/
+/*
 let idArray = articlId
 let colorsArray = document.querySelector('#colors').value
 let quantityArray = document.querySelector('#quantity').value
@@ -54,3 +62,25 @@ if (button != null) {
     }
     localStorage.setItem(articlId, color)
 })}
+*/
+
+const button = document.querySelector("#addToCart")
+  button.addEventListener("click", (e) => {
+    let idArray = articlId
+    let colorsArray = document.querySelector('#colors').value
+    let quantityArray = document.querySelector('#quantity').value
+    const array = [idArray, colorsArray, quantityArray]
+
+    let objKanap = {
+      id : idArray ,
+      couleurs : colorsArray ,
+      quantité : quantityArray
+    }
+    let objLinea = JSON.stringify(objKanap)
+    localStorage.setItem("obj", objLinea)
+    
+    
+    let objLine = localStorage.getItem("obj"); 
+    JSON.parse(objLine);
+})
+
