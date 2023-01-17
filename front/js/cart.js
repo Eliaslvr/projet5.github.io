@@ -1,1 +1,1 @@
-import {getArticleId, getArticle, produitStorage, button} from "./product";
+//import {getArticleId, getArticle, produitStorage, button} from "./product";

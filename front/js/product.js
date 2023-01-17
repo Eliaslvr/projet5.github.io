@@ -23,11 +23,17 @@ function getArticle() {
     }
 
 
-  export const button = document.querySelector("#addToCart")
+  /*export*/ const button = document.querySelector("#addToCart")
   button.addEventListener("click", (e) => {
     let id = articlId
     let couleurs = document.querySelector('#colors').value
     let quantité = document.querySelector('#quantity').value
+
+    if (quantité < 1 || quantité > 99 || couleurs == null || couleurs == "" || couleurs == '--SVP, choisissez une couleur --') {
+      alert("Séléctionner une couleur ainsi qu'un article compris entre 1 et 99")
+    } else {
+      window.location = "http://127.0.0.1:5502/front/html/cart.html"
+    }
 
     let objKanap = {
       id,
@@ -37,8 +43,8 @@ function getArticle() {
 
     localStorage.setItem("obj", JSON.stringify(objKanap))
 
-    window.location = "http://127.0.0.1:5502/front/html/cart.html"
+    //window.location = "http://127.0.0.1:5502/front/html/cart.html"
 })
 
-export { getArticleId, getArticle };
+//export { getArticleId, getArticle };
 
