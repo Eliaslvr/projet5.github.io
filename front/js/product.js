@@ -23,7 +23,7 @@ function getArticle() {
     }
 
 
-  /*export*/ const button = document.querySelector("#addToCart")
+  const button = document.querySelector("#addToCart")
   button.addEventListener("click", (e) => {
     let id = articlId
     let couleurs = document.querySelector('#colors').value
@@ -46,5 +46,4 @@ function getArticle() {
     //window.location = "http://127.0.0.1:5502/front/html/cart.html"
 })
 
-//export { getArticleId, getArticle };
 
