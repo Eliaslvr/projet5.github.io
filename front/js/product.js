@@ -38,7 +38,7 @@ function getArticle() {
     let objKanap = {
       id,
       couleurs,
-      quantité
+      quantité,
     }
 
     localStorage.setItem("obj", JSON.stringify(objKanap))
