@@ -22,28 +22,73 @@ function getArticle() {
       
     }
 
+    const incrementQuantity = (quantity) => quantity++;
+
 
   const button = document.querySelector("#addToCart")
   button.addEventListener("click", (e) => {
     let id = articlId
     let couleurs = document.querySelector('#colors').value
     let quantité = document.querySelector('#quantity').value
+    let tableData = [];
+    let getLocalStorageAffiche = JSON.parse(localStorage.getItem('obj'))
+
+    quantité = incrementQuantity(quantité);
 
     if (quantité < 1 || quantité > 99 || couleurs == null || couleurs == "" || couleurs == '--SVP, choisissez une couleur --') {
       alert("Séléctionner une couleur ainsi qu'un article compris entre 1 et 99")
     } else {
-      window.location = "http://127.0.0.1:5502/front/html/cart.html"
+      let objKanap = {
+        id,
+        couleurs,
+        quantité,
+      }
+      /*getLocalStorageAffiche
+      if (getLocalStorageAffiche) {
+        getLocalStorageAffiche.reduce(objKanap)
+        function getSum(total, num) {
+          return total + Math.round(num)
+        }
+        tableData = getLocalStorageAffiche
+      }else{
+        tableData.push(objKanap);
+      }*/
+
+      const product = findProductByColor(objKanap.couleurs);
+      tableData = getProductsFromLocalStorage();
+
+      if (product) {
+        tableData = updateProduct(objKanap)
+      } else {
+        tableData.push(objKanap);
+      }
+
+      publishToLocalStorage(tableData)
+      //window.location = "http://127.0.0.1:5502/front/html/cart.html"
     }
+});
 
-    let objKanap = {
-      id,
-      couleurs,
-      quantité,
-    }
+/*function incrementProductQuantity(product) {
+  product.quantité++;
+}*/
 
-    localStorage.setItem("obj", JSON.stringify(objKanap))
+function findProductByColor(color) {
+  return getProductsFromLocalStorage().find(selectedProduct => selectedProduct.couleurs === color);
+}
 
-    //window.location = "http://127.0.0.1:5502/front/html/cart.html"
-})
+const getProductsFromLocalStorage = () => JSON.parse(localStorage.getItem('obj')) || [];
+
+const findProductByColor = (color) => getProductsFromLocalStorage().find(selectedProduct => selectedProduct.couleurs === color);
+
+const publishToLocalStorage = (data) => localStorage.setItem("obj", JSON.stringify(data));
+
+const updateProduct = (product) => getProductsFromLocalStorage().map(productInBasket => {
+  if (productInBasket.couleurs == product.couleurs) {
+    productInBasket.quantité = product.quantité;
+  }
+
+  return productInBasket;
+});
+
 
 
