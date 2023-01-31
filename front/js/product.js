@@ -22,9 +22,9 @@ function getArticle() {
       
     }
 
-    const incrementQuantity = (quantity) => quantity++;
+    //const incrementQuantity = (quantity) => quantity++;
 
-
+//function addToCart(product){
   const button = document.querySelector("#addToCart")
   button.addEventListener("click", (e) => {
     let id = articlId
@@ -32,18 +32,40 @@ function getArticle() {
     let quantité = document.querySelector('#quantity').value
     let tableData = [];
     let getLocalStorageAffiche = JSON.parse(localStorage.getItem('obj'))
-
-    quantité = incrementQuantity(quantité);
+    quantité = Number(quantité.value)
+    //quantité = incrementQuantity(quantité);
 
     if (quantité < 1 || quantité > 99 || couleurs == null || couleurs == "" || couleurs == '--SVP, choisissez une couleur --') {
       alert("Séléctionner une couleur ainsi qu'un article compris entre 1 et 99")
     } else {
       let objKanap = {
         id,
+        //name: product.name,
+        //img: product.imageUrl,
         couleurs,
         quantité,
       }
-      /*getLocalStorageAffiche
+      if (getLocalStorageAffiche) {
+        let item = getLocalStorageAffiche.find(
+          (item) => item.id == objKanap.id && item.couleurs == objKanap.couleurs
+        )
+        if (item) {
+          const newQuantity = item.quantité + objKanap.quantité;
+          //console.log(newQuantity)
+          item.quantité = newQuantity;
+
+          localStorage.setItem("obj", JSON.stringify(getLocalStorageAffiche));
+        } else {
+          getLocalStorageAffiche.push(objKanap);
+          localStorage.setItem("obj", JSON.stringify(tableData))
+        }
+
+    }}})
+
+
+
+
+/*getLocalStorageAffiche
       if (getLocalStorageAffiche) {
         getLocalStorageAffiche.reduce(objKanap)
         function getSum(total, num) {
@@ -54,7 +76,14 @@ function getArticle() {
         tableData.push(objKanap);
       }*/
 
-      const product = findProductByColor(objKanap.couleurs);
+
+
+
+
+
+
+
+      /*const product = findProductByColor(objKanap.couleurs);
       tableData = getProductsFromLocalStorage();
 
       if (product) {
@@ -66,11 +95,24 @@ function getArticle() {
       publishToLocalStorage(tableData)
       //window.location = "http://127.0.0.1:5502/front/html/cart.html"
     }
-});
+});*/
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*function incrementProductQuantity(product) {
   product.quantité++;
-}*/
+}
 
 function findProductByColor(color) {
   return getProductsFromLocalStorage().find(selectedProduct => selectedProduct.couleurs === color);
@@ -88,7 +130,4 @@ const updateProduct = (product) => getProductsFromLocalStorage().map(productInBa
   }
 
   return productInBasket;
-});
-
-
-
+});*/
