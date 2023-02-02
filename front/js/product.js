@@ -22,25 +22,48 @@ function getArticle() {
       
     }
 
-    //const incrementQuantity = (quantity) => quantity++;
-
-//function addToCart(product){
   const button = document.querySelector("#addToCart")
   button.addEventListener("click", (e) => {
     e.preventDefault();//annulation de tout les comportements par defaut
     let id = articlId
-    let couleurs = document.querySelector('#colors').value
+    let couleur = document.querySelector('#colors').value
     let quantite = document.querySelector('#quantity').value
     let tableData = [];
     let getLocalStorageData = localStorage.getItem('obj')
 
-    if (quantite < 1 || quantite > 99 || couleurs == null || couleurs == "" || couleurs == '--SVP, choisissez une couleur --') {
+    if (quantite < 1 || quantite > 99 || couleur == null || couleur == "" || couleur == '--SVP, choisissez une couleur --') {
       alert("Séléctionner une couleur ainsi qu'un article compris entre 1 et 99")
     } else {
-        if(!getLocalStorageData) {
+        /*if (getLocalStorageData) {
           let objKanap = {
             id,
-            couleurs,
+            couleur,
+            quantite,
+          }
+          tableData = JSON.parse(localStorage.getItem('obj'))//Pouvoir recuprer l'objet dans le localStorage
+          tableData.forEach(element => {
+          if (element.id === objKanap.id && element.couleur === objKanap.couleur) {
+              //element.quantite = quantite
+              objKanap
+              let newQuantite = element.quantite += objKanap.quantite
+             // element.quantite = newQuantite
+              console.log(newQuantite);
+
+              localStorage.setItem("obj", JSON.stringify(tableData));
+          } else {
+            tableData.push(objKanap);//Ajoute element dans le tableau
+            localStorage.setItem("obj", JSON.stringify(tableData));//Pouvoir ajouter l'objet au localStorage
+          }
+    }
+          )}}})*/
+
+
+
+
+    if(!getLocalStorageData) {
+          let objKanap = {
+            id,
+            couleur,
             quantite,
           }
           tableData.push(objKanap);//Ajoute element dans le tableau
@@ -48,17 +71,47 @@ function getArticle() {
         } else {
           tableData = JSON.parse(localStorage.getItem('obj'))//Pouvoir recuprer l'objet dans le localStorage
           tableData.forEach(element => {
-            if (element.id == id && element.couleurs == couleurs) {
-              element.quantite = quantite
+            if (element.id === id && element.couleur === couleur) {
+              let objKanap = {
+                id,
+                couleur,
+                quantite,
+              }
+              /*document.getElementById("quantity").innerHTML =
+              element.quantite += Number(quantite.value);
+              //search = true*/
+
+              Number(element.quantite) = Number(quantite);
+              const newQuantite = [Number(element.quantite), Number(objKanap.quantite)]//La Number()méthode convertit une valeur en nombre.
+              const sumNote = newQuantite.reduce(
+                (accumulator, currentValue) => {
+                  return accumulator += currentValue
+                }, 
+              )
+              console.log(sumNote);
+              
+            /*const array = [element.quantite];
+            let sum = quantite;
+
+            for (let i = 0; i < array.length; i++) {
+                sum += array[i];
+            }
+            console.log(sum);*/
+              
               localStorage.setItem("obj", JSON.stringify(tableData));
 
             } else {
-              console.log(id, couleurs, quantite);
+              //console.log(id, couleur, quantite);
+              let objKanap = {
+                id,
+                couleur,
+                quantite,
+              }
+              tableData.push(objKanap);//Ajoute element dans le tableau
+              localStorage.setItem("obj", JSON.stringify(tableData))
             }
           });
-        }
-
-    }})
+        }}})
 
 
 
@@ -172,3 +225,11 @@ const updateProduct = (product) => getProductsFromLocalStorage().map(productInBa
 
   return productInBasket;
 });*/
+
+const notes = [1, 2, 3, 4]
+const sumNote = notes.reduce(
+  (sum, currentNote) => {
+    return sum += currentNote
+  }, 100
+)
+console.log(sumNote);
