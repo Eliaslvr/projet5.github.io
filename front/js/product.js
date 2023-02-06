@@ -77,30 +77,19 @@ function getArticle() {
                 couleur,
                 quantite,
               }
-              /*document.getElementById("quantity").innerHTML =
-              element.quantite += Number(quantite.value);
-              //search = true*/
 
-              Number(element.quantite) = Number(quantite);
               const newQuantite = [Number(element.quantite), Number(objKanap.quantite)]//La Number()méthode convertit une valeur en nombre.
               const sumNote = newQuantite.reduce(
                 (accumulator, currentValue) => {
                   return accumulator += currentValue
                 }, 
               )
+              element.quantite = sumNote
               console.log(sumNote);
-              
-            /*const array = [element.quantite];
-            let sum = quantite;
-
-            for (let i = 0; i < array.length; i++) {
-                sum += array[i];
-            }
-            console.log(sum);*/
               
               localStorage.setItem("obj", JSON.stringify(tableData));
 
-            } else {
+            }/* else {
               //console.log(id, couleur, quantite);
               let objKanap = {
                 id,
@@ -109,7 +98,7 @@ function getArticle() {
               }
               tableData.push(objKanap);//Ajoute element dans le tableau
               localStorage.setItem("obj", JSON.stringify(tableData))
-            }
+            }*/ 
           });
         }}})
 
