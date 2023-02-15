@@ -15,6 +15,8 @@ if (!getLocalStorageCart) {
         .then(data => data.json())
         .then(jsonAffiche => {
           console.log(jsonAffiche)
+          element;
+          console.log(element);
           const afficheElement = document.querySelector('#cart__items')
           afficheElement.innerHTML += `<article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
                                         <div class="cart__item__img">
@@ -23,12 +25,12 @@ if (!getLocalStorageCart) {
                                         <div class="cart__item__content">
                                           <div class="cart__item__content__description">
                                             <h2>${jsonAffiche.name}</h2>
-                                            <p>colors}</p>
+                                            <p>${element.couleur}</p>
                                             <p>${jsonAffiche.price} €</p>
                                           </div>
                                           <div class="cart__item__content__settings">
                                             <div class="cart__item__content__settings__quantity">
-                                              <p>Qté : ${element.quantité}</p>
+                                              <p>Qté : ${element.quantite}</p>
                                               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
                                             </div>
                                             <div class="cart__item__content__settings__delete">
@@ -38,16 +40,14 @@ if (!getLocalStorageCart) {
                                         </div>
                                       </article> `
         })
-       }
-       //document.querySelector(".cart__item__content__description.p").textContent = element.pri
+      }
        let aa = fetchCart();
-       //console.log(fetchCart());
 
       /*fetch(`http://localhost:3000/api/products/${element.id}`)
         .then(data => data.json())
         .then(body => console.log(body))*/
 
-       const afficheElement = document.querySelector('#cart__items')
+       const afficheElement = document.querySelector('#cart__items');
 
        /*const cartAjout = `<article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
                             <div class="cart__item__img">
