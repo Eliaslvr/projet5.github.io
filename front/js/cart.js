@@ -30,8 +30,8 @@ if (!getLocalStorageCart) {
                                           </div>
                                           <div class="cart__item__content__settings">
                                             <div class="cart__item__content__settings__quantity">
-                                              <p>Qté : ${element.quantite}</p>
-                                              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
+                                              <p>Qté :</p>
+                                              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${element.quantite}">
                                             </div>
                                             <div class="cart__item__content__settings__delete">
                                               <p class="deleteItem">Supprimer</p>
@@ -42,10 +42,6 @@ if (!getLocalStorageCart) {
         })
       }
        let aa = fetchCart();
-
-      /*fetch(`http://localhost:3000/api/products/${element.id}`)
-        .then(data => data.json())
-        .then(body => console.log(body))*/
 
        const afficheElement = document.querySelector('#cart__items');
 
