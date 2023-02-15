@@ -4,7 +4,7 @@ const articl = getArticle()
 function getArticleId() {
   return new URL(location.href).searchParams.get("id")
 }
-
+console.log(articlId);
 
 function getArticle() {
   return fetch(`http://localhost:3000/api/products/${articlId}`)
@@ -21,6 +21,8 @@ function getArticle() {
       )
       
     }
+
+  console.log(articl);
 
   const button = document.querySelector("#addToCart")
   button.addEventListener("click", (e) => {
