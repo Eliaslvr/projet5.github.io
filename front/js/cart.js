@@ -10,13 +10,10 @@ if (!getLocalStorageCart) {
     afficheElement.innerHTML = panierVide
   } else {
     getLocalStorageCart.forEach(element => {
-      async function fetchCart() {
-        await fetch(`http://localhost:3000/api/products/${element.id}`) 
+      fetch(`http://localhost:3000/api/products/${element.id}`) 
         .then(data => data.json())
         .then(jsonAffiche => {
-          console.log(jsonAffiche)
           element;
-          console.log(element);
           const afficheElement = document.querySelector('#cart__items')
           afficheElement.innerHTML += `<article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
                                         <div class="cart__item__img">
@@ -26,7 +23,7 @@ if (!getLocalStorageCart) {
                                           <div class="cart__item__content__description">
                                             <h2>${jsonAffiche.name}</h2>
                                             <p>${element.couleur}</p>
-                                            <p>${jsonAffiche.price} €</p>
+                                            <p>${jsonAffiche.price * element.quantite} €</p>
                                           </div>
                                           <div class="cart__item__content__settings">
                                             <div class="cart__item__content__settings__quantity">
@@ -41,32 +38,51 @@ if (!getLocalStorageCart) {
                                       </article> `
         })
       }
-       let aa = fetchCart();
+    )
+}
+  
 
-       const afficheElement = document.querySelector('#cart__items');
 
-       /*const cartAjout = `<article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
-                            <div class="cart__item__img">
-                              <!--<img src= alt=>-->
-                            </div>
-                            <div class="cart__item__content">
-                              <div class="cart__item__content__description">
-                                <h2>${aa.name}</h2>
-                                <p>${element.couleurs}</p>
-                                <p>.price} €</p>
-                              </div>
-                              <div class="cart__item__content__settings">
-                                <div class="cart__item__content__settings__quantity">
-                                  <p>Qté : ${element.quantité}</p>
-                                  <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="42">
-                                </div>
-                                <div class="cart__item__content__settings__delete">
-                                  <p class="deleteItem">Supprimer</p>
-                                </div>
-                              </div>
-                            </div>
-                          </article> `
-      afficheElement.innerHTML += cartAjout*/
+// const deleteButton = document.querySelector(".deleteItem");
+// const quantityValue = document.querySelector(".itemQuantity");
 
-    });
-  }
+// getLocalStorageCart.forEach(btn => {
+//   deleteButton.addEventListener("change", (e) => {
+//     e.preventDefault();//annulation de tout les comportements par defaut
+//     //getLocalStorageCart.splice()
+//     quantityValue.textContent = this.value;
+    
+//   })
+// })
+
+
+// getLocalStorageCart;
+// const deleteButton = document.querySelector(".deleteItem");
+// const touchBoutton = deleteButton.addEventListener("click", (e) => {
+//   e.preventDefault();//annulation de tout les comportements par defaut
+//   if (touchBoutton) {
+//     afficheElement.innerHTML += `<article><article/>`
+//     getLocalStorageCart.splice(0)
+//   }
+// });
+
+
+// if (touchBoutton) {
+//   getLocalStorageCart.splice(0)
+// }
+
+const boutton = document.querySelector(".deleteItem");
+
+getLocalStorageCart.findIndex(element => {
+    boutton.addEventListener("click", function (event) {
+      console.log(event);
+    })
+  })
+
+console.log(boutton);
+
+  // boutton.addEventListener('click', function (event) {
+  //   console.log(event)
+  // })
+
+
