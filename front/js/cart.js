@@ -1,5 +1,9 @@
 const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
-const afficheElement = document.querySelector('#cart__items')
+const afficheElement = document.querySelector('#cart__items');
+
+function removeItem() {
+  console.log("Item test");
+}
 
 if (!getLocalStorageCart) {
   const panierVide = `
@@ -9,12 +13,11 @@ if (!getLocalStorageCart) {
     `
     afficheElement.innerHTML = panierVide
   } else {
-    getLocalStorageCart.forEach(element => {
+    getLocalStorageCart.forEach((element, index) => {
       fetch(`http://localhost:3000/api/products/${element.id}`) 
         .then(data => data.json())
         .then(jsonAffiche => {
-          element;
-          const afficheElement = document.querySelector('#cart__items')
+          const afficheElement = document.querySelector('#cart__items');
           afficheElement.innerHTML += `<article class="cart__item" data-id="{product-ID}" data-color="{product-color}">
                                         <div class="cart__item__img">
                                           <img src=${jsonAffiche.imageUrl} alt=${jsonAffiche.altTxt}>
@@ -30,18 +33,55 @@ if (!getLocalStorageCart) {
                                               <p>Qté :</p>
                                               <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${element.quantite}">
                                             </div>
-                                            <div class="cart__item__content__settings__delete">
-                                              <p class="deleteItem">Supprimer</p>
+                                            <div id="cart_delete_item-${index}" class="cart__item__content__settings__delete">
+                                              <button id="delete-item-${index}" class="deleteItem">Supprimer</button>
                                             </div>
                                           </div>
                                         </div>
                                       </article> `
+                                      console.log(index)
+
+                                      const deleteButton = document.createElement("button");
+                                      deleteButton.addEventListener("click", function() {
+                                        console.log(`delete-item-${index}`);
+                                      });
+
+                                      document.getElementById(`cart_delete_item-${index}`).appendChild(deleteButton)
+
+                                    //   window.addEventListener('load',function(){    document.getElementById(`delete-item-${index}`).addEventListener("click", function() {
+                                    //     console.log(`delete-item-${index}`);
+                                    //     debugger;
+                                    //   });
+                                    // });
+                                      
+                                    //   document.getElementById(`delete-item-${index}`).addEventListener("click", function() {
+                                    //     console.log(`delete-item-${index}`);
+                                    //     debugger;
+                                    //   });
         })
       }
     )
+    console.log('end')
 }
-  
 
+                                      window.addEventListener('load',function(){    
+   
+                                    });
+
+
+                                    console.log('test');
+                                    Array.from(document.getElementsByClassName("deleteItem")).forEach(element => {
+                                      console.log(element);
+                                      element.addEventListener("click", function() {
+                                            console.log(`wsh`);
+                                          });
+                                    });
+                                    console.log('test end');
+
+  
+// const x = afficheElement;
+// const y = x.document.getElementsByClassName("cart__item");
+// console.log(y);
 
 // const deleteButton = document.querySelector(".deleteItem");
 // const quantityValue = document.querySelector(".itemQuantity");
@@ -71,18 +111,28 @@ if (!getLocalStorageCart) {
 //   getLocalStorageCart.splice(0)
 // }
 
-const boutton = document.querySelector(".deleteItem");
 
-getLocalStorageCart.findIndex(element => {
-    boutton.addEventListener("click", function (event) {
-      console.log(event);
-    })
-  })
+// boutton = document.querySelector(".deleteItem");
 
-console.log(boutton);
+// getLocalStorageCart.forEach(element => {
+//   boutton.addEventListener("click" , (e) => {
+//     alert('alerte')
+//   })
+// })
+//  const yy = document.querySelector('#cart__items  .cart__item  .cart__item__content .cart__item__content__settings .cart__item__content__settings__delete .deleteItem')
+// const yy = document.querySelector('#cart__items .cart__item .cart__item__content .cart__item__content__settings .cart__item__content__settings__delete .deleteItem')
+//  yy.addEventListener('click' , (e) => {
+//   alert('alerte')
+//  })
+// const uu = document.querySelector('.cart__item');
+// uu.addEventListener('click' , (e) => {
+//     alert('alerte')
+//    })
 
-  // boutton.addEventListener('click', function (event) {
-  //   console.log(event)
-  // })
+// console.log (uu)
+// console.log(yy);
+// console.log(boutton);
+
+
 
 
