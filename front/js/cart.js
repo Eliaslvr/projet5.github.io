@@ -41,7 +41,7 @@ if (!getLocalStorageCart) {
                                       </article> `
       })
       .then(() => {
-        Array.from(document.getElementsByClassName("deleteItem")).forEach(element => {//convertir tableau 
+        Array.from(document.getElementsByClassName("deleteItem")).forEach(element => {//convertir tableau document.getElement.....
           element.addEventListener("click", (e) => {
             const local = localStorage.getItem("obj");
             const products = JSON.parse(local);
@@ -51,6 +51,19 @@ if (!getLocalStorageCart) {
           })
         });
       })
+
+    .then(() => {
+      const quantiy = Array.from(document.getElementsByClassName("itemQuantity"));
+      quantiy.forEach((element, i) => {
+        element.addEventListener("input", (e) => {
+          const local = localStorage.getItem("obj");
+          const products = JSON.parse(local);
+          products[i - 1].quantite = e.target.value; //-1 car js compte a partir de 1 pour que ca commence a partir de 0
+          localStorage.setItem("obj", JSON.stringify(products));
+        })
+        
+      });
+    })
   }
   )
 }
