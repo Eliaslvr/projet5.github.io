@@ -31,10 +31,10 @@ if (!getLocalStorageCart) {
                                           <div class="cart__item__content__settings">
                                             <div class="cart__item__content__settings__quantity">
                                               <p>Qté :</p>
-                                              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${element.quantite}">
+                                              <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${element.quantite}"  dataId="${element.id}"  dataColor="${element.couleur}">
                                             </div>
-                                            <div id="cart_delete_item-${index}" class="cart__item__content__settings__delete">
-                                              <p id="delete_item-${index}" class="deleteItem">Supprimer</p>
+                                            <div class="cart__item__content__settings__delete">
+                                              <p class="deleteItem" dataId="${element.id}"  dataColor="${element.couleur}">Supprimer</p>
                                             </div>
                                           </div>
                                         </div>
@@ -43,22 +43,31 @@ if (!getLocalStorageCart) {
       .then(() => {
         Array.from(document.getElementsByClassName("deleteItem")).forEach(element => {//convertir tableau document.getElement.....
           element.addEventListener("click", (e) => {
+            const id = element.getAttribute('dataId');
+            const color = element.getAttribute('dataColor');
             const local = localStorage.getItem("obj");
             const products = JSON.parse(local);
-            products.splice(index, 1);
+            console.log(id);
+            console.log(color);
+            const produitFind = products.findIndex(element => element.id === id && element.couleur === color); 
+            console.log(produitFind);
+            products.splice(produitFind, 1);
             localStorage.setItem("obj", JSON.stringify(products));
             location.reload();
           })
         });
       })
-
     .then(() => {
       const quantiy = Array.from(document.getElementsByClassName("itemQuantity"));
       quantiy.forEach((element, i) => {
-        element.addEventListener("input", (e) => {
+        element.addEventListener("input", (e) => { //input se declanche quand la valeur a été modifier
+          const id = element.getAttribute('dataId');
+          const color = element.getAttribute('dataColor');
           const local = localStorage.getItem("obj");
           const products = JSON.parse(local);
-          products[i - 1].quantite = e.target.value; //-1 car js compte a partir de 1 pour que ca commence a partir de 0
+          const produitFind = products.find(element => element.id === id && element.couleur === color); 
+          console.log(produitFind);
+          produitFind.quantite = e.target.value;//target renvoie l'élément sur lequel l'événement s'est produit
           localStorage.setItem("obj", JSON.stringify(products));
         })
         
@@ -67,3 +76,20 @@ if (!getLocalStorageCart) {
   }
   )
 }
+
+
+// function validation()
+// {
+// var expressionReguliere = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
+// if (expressionReguliere.test(document.getElementById(email).value))
+// {
+// document.getElementById(email).innerHTML = `L'adresse mail est valide`;
+// document.getElementById(email).style.color = green;
+// }
+// else
+// {
+// document.getElementById(email).innerHTML = `L'adresse mail n'est pas valide`;
+// document.getElementById(email).style.color = red;
+// }
+// return false;
+// }
