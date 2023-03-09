@@ -1,10 +1,6 @@
 const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
 const afficheElement = document.querySelector('#cart__items');
 
-// function removeItem() {
-//   console.log("Item test");
-// }
-
 if (!getLocalStorageCart) {
   const panierVide = `
     <div id="cart__items">
@@ -82,123 +78,51 @@ if (!getLocalStorageCart) {
                   (accumulator, currentValue) => accumulator + currentValue
                 );
 
-            
-
-                //const getPrice = document.getElementById('totalPrice');
                 const getQuantity = document.getElementById('totalQuantity');
-    
-                //getPrice.textContent = "1"
+
                 getQuantity.textContent = quantityFinal;
-              }
-                         //////////////PRIX FINAL/////////////////////
-            let totalPrice = [];
-
-            for (let i in jsonAffiche) {
-              //console.log(jsonAffiche[i]);
-              let priceAccum = jsonAffiche.price;
-              console.log(priceAccum);
-              totalPrice.push(priceAccum);
-              console.log(totalPrice);
-
-              // const priceFinal = totalPrice.reduce(
-              //   (accumulator, currentValue) => accumulator + currentValue
-              // );
-              // console.log(priceFinal);
-            }
-            // let totalPrice = [];
-            // const abc = jsonAffiche;
-              
-            //   for (let i = 0; i < jsonAffiche.length; i++) {
-            //     // let priceAccum = jsonAffiche[i].price;
-            //     // console.log(jsonAffiche);
-            //     // console.log(priceAccum);
-            //     // parsePrice = parseInt(PriceAccum)
-            //     // totalPrice.push(parsePrice);
-
-            //     // const priceFinal = totalPrice.reduce(
-            //     //   (accumulator, currentValue) => accumulator + currentValue
-            //     // );
-
-            
-
-            //     // const getPrice = document.getElementById('totalPrice');
-            //     // const getQuantity = document.getElementById('totalQuantity');
-    
-            //     // getPrice.textContent = "1"
-            //     // getQuantity.textContent = quantityFinal;
-            //   }
+                }
       })
   }
   )
-  // const getPrice = document.getElementById('totalPrice');
-  // const getQuantity = document.getElementById('totalQuantity');
-  // console.log(getLocalStorageCart);
-  // console.log(getPrice);
-  // console.log(getQuantity);
-
-  //  let totalQuantity = [];
-
-  //  for (let i = 0; i < getLocalStorageCart.length; i++) {
-  //   let totalQuantityPanier = getLocalStorageCart[i].quantite;
-
-  //   totalQuantity.push(totalQuantityPanier)
-  //   console.log(totalQuantity);
-
-  //   const calcul = (accumulator, currentValue) => accumulator + currentValue;
-  //   const quantityFinal = totalQuantity.reduce(calcul);
-
-  //   console.log(quantityFinal);
-  //  }
-  /*let totalQuantity = [];
-
-  for (let i = 0; i < getLocalStorageCart.length; i++) {
-    let quantiyAccum = getLocalStorageCart[i].quantite;
-    totalQuantity.push(quantiyAccum);
-    console.log(totalQuantity);
-
-    // const quantityFinal = totalQuantity.reduce(
-    //   (accumulator, currentValue) => accumulator + currentValue
-    // );
-    // console.log(quantityFinal);
-  }
-  const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  console.log(reducer);
-  console.log(totalQuantity.reduce(reducer));*/
-
-   
-   
-    // getLocalStorageCart.forEach(element => {
-    //   console.log(element.quantite)
-    //   let totalQuant = [element.quantite]
-    //   let totalQuantity = 0;
-    //   for (let i = 0; i < totalQuant.length; i++) {
-    //     totalQuantity += totalQuant[i];
-    //   }
-    //   console.log(totalQuantity);
-
-    // });
-
-  //getPrice.innerHTML = `<p>Total (<span id="totalQuantity"> ${element.quantite} </span> articles) : <span id="totalPrice"> ${element.quantite * jsonAffiche.price} </span> €</p>`
-  // getPrice.textContent = "1"
-  // getQuantity.textContent = "1"
-  
 }
-// let totalQuantity = [];
+                       //////////////PRIX FINAL////////////////////
+getLocalStorageCart.forEach(element => {
+  fetch(`http://localhost:3000/api/products/${element.id}`)
+  .then(data => data.json())
+  .then(jsonAffiche => {
 
-//   for (let i = 0; i < getLocalStorageCart.length; i++) {
-//     let quantiyAccum = getLocalStorageCart[i].quantite;
-//     parseQuantite = parseInt(quantiyAccum)
-//     //console.log(quantiyAccum);
-//     totalQuantity.push(parseQuantite);
-//     console.log(totalQuantity);
-//     console.log(parseQuantite);
+    // let totalPrice = [];
 
-//     const quantityFinal = totalQuantity.reduce(
-//       (accumulator, currentValue) => accumulator + currentValue
-//     );
-//     console.log(quantityFinal);
-//   }
+      //  for (let i in jsonAffiche) {
+      //   const priceJson = jsonAffiche.price
+      //    console.log(priceJson);
+      //    parsePrice = parseInt(priceJson)
+      //   // let priceAccum = i;
+      //   // console.log(priceAccum);
+      //   // totalPrice.push(priceAccum);
+      //   // console.log(totalPrice);
+      //  }
+      let totalPrice = [];
 
+       if (jsonAffiche) {
+        let priceJson = jsonAffiche.price;
+        //console.log(priceJson);
+        //parsePrice = parseInt(priceJson);
+        //console.log(parsePrice);
+        totalPrice.push(priceJson);
+        console.log(totalPrice);
+
+        const priceFinal = totalPrice.reduce(
+          (accumulator, currentValue) => accumulator + currentValue
+        );
+
+        const getPrice = document.getElementById('totalPrice');
+    
+        getPrice.textContent = priceFinal
+       }
+  });
+})
 
 
 // function validation()
@@ -216,3 +140,5 @@ if (!getLocalStorageCart) {
 // }
 // return false;
 // }
+
+
