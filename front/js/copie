@@ -93,3 +93,119 @@ if (!getLocalStorageCart) {
 // }
 // return false;
 // }
+
+const validationForm = {
+    firstName: {
+      Element: document.getElementById("firstName"),
+      regex: /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/,
+      errorMsg: "Prénom invalide",
+    },
+    lastName: {
+      Element: document.getElementById("lastName"),
+      regex: /^[a-zA-ZÀ-ÖØ-öø-ÿ]+$/,
+      errorMsg: "nom invalide",
+    },
+    address: {
+      Element: document.getElementById("address"),
+      regex: /^.+/,
+      errorMsg: "adresse invalide",
+    },
+    city: {
+      Element: document.getElementById("city"),
+      regex: /^[A-Z][a-z]+([\s-][A-Z][a-z]+)*$/,
+      errorMsg: "ville invalide",
+    },
+    email: {
+      Element: document.getElementById("email"),
+      regex: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/,
+      errorMsg: "email invalide",
+    }
+  };
+  
+  
+  let inputFirstName = document.getElementById('firstName');
+  inputFirstName.addEventListener("change", () => checkValidInput(validationForm.firstName));
+  
+  let inputLastName = document.getElementById('lastName');
+  inputLastName.addEventListener("change", () => checkValidInput(validationForm.lastName));
+  
+  let inputAddress = document.getElementById('address');
+  address.addEventListener("change", () => checkValidInput(validationForm.address));
+  
+  let inputCity = document.getElementById('city');
+  inputCity.addEventListener("change", () => checkValidInput(validationForm.city));
+  
+  let inputEmail = document.getElementById('email');
+  inputEmail.addEventListener("change", () => checkValidInput(validationForm.email));
+  
+  // // je verifie avec cette fonction si les valeur de l'input son autoriser
+  // puis je regroupe tous ce qui a été déclarer .
+  // puis ifRegexValid sert a regrouper toute les const qui vont etre vérifier en une fois
+  function checkValidInput(input) {
+    const element = input.Element;
+    const regex = input.regex;
+    const errorMsg = input.errorMsg;
+    const errorTxt = element.nextElementSibling;
+    const isValid = regex.test(element.value);
+    if (!isValid) {
+      errorTxt.innerText = errorMsg;
+      console.log(errorMsg)
+    } else {
+      errorTxt.innerText = "";
+    }
+    return isValid;
+  }
+  
+  // appel au fetch pour retourner le formulaire sur confirmation:
+  // je créer la fonction qui enverra les données au serveur avec fetch methode post pour rejoindre la page order donc confirmation .html
+  const sendForm = async (contact, products) => {
+    const response = await fetch(" http://localhost:3000/api/products/order ", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(contact, products),
+    })
+    const dataRes = await response.json();
+    console.log(dataRes)
+    return dataRes;
+  }
+  
+  document.querySelector(".cart__order__form").addEventListener("submit", (event) => {
+    event.preventDefault();
+  
+    let contact = {
+      firstName: inputFirstName.value,
+      lastName: inputLastName.value,
+      address: inputAddress.value,
+      city: inputCity.value,
+      email: inputEmail.value,
+    }
+    // console.log(checkValidInput(validationForm.firstName),
+      checkValidInput(validationForm.lastName),
+      checkValidInput(validationForm.address),
+      checkValidInput(validationForm.city),
+      checkValidInput(validationForm.email)
+  
+    if (cart == null || cart.length == "" || cart.length === 0 || articles.length === 0) {
+  
+      alert("Your cart is empty, please add at least one item.");
+      // si le panier es vide alors une alert previen qu'il faut ajouté un article
+  
+      window.location.href = 'index.html'
+    } else if (
+      checkValidInput(validationForm.firstName) == false ||
+      checkValidInput(validationForm.lastName) == false ||
+      checkValidInput(validationForm.address) == false ||
+      checkValidInput(validationForm.city) == false ||
+      checkValidInput(validationForm.email) == false
+    ) {
+      return;
+    }
+  
+    sendForm({ contact, products: cart.map((product) => product._id) })
+      .then((data) => {
+        localStorage.removeItem('cart');
+        window.location.href = 'confirmation.html?id=' + data.orderId;
+      });
+  })

@@ -1,3 +1,4 @@
+getTotalPrice();
 const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
 const afficheElement = document.querySelector('#cart__items');
 
@@ -22,7 +23,7 @@ if (!getLocalStorageCart) {
                                           <div class="cart__item__content__description">
                                             <h2>${jsonAffiche.name}</h2>
                                             <p>${element.couleur}</p>
-                                            <p>${jsonAffiche.price * element.quantite} €</p>
+                                            <p>${jsonAffiche.price} €</p>
                                           </div>
                                           <div class="cart__item__content__settings">
                                             <div class="cart__item__content__settings__quantity">
@@ -54,75 +55,46 @@ if (!getLocalStorageCart) {
 
                                //////////////AJOUT LOCAL STORAGE//////////////
             const quantiy = Array.from(document.getElementsByClassName("itemQuantity"));
-            quantiy.forEach((element, i) => {
-              element.addEventListener("input", (e) => { //input se declanche quand la valeur a été modifier
+            quantiy.forEach((element) => {
+              element.addEventListener("input", (e) => { //input se declanche quand la valeur a été modifier 
                 const id = element.getAttribute('dataId');
                 const color = element.getAttribute('dataColor');
                 const local = localStorage.getItem("obj");
                 const products = JSON.parse(local);
                 const produitFind = products.find(element => element.id === id && element.couleur === color); 
-                console.log(produitFind);
-                produitFind.quantite = e.target.value;//target renvoie l'élément sur lequel l'événement s'est produit
+                if (e.target.value >= 1 && e.target.value<= 100){
+                  produitFind.quantite = e.target.value;//target renvoie l'élément sur lequel l'événement s'est produit 
+                } else {
+                  alert("Saisir une quantité compris entre 1 et 100")
+                  produitFind.quantite = 1;//On affecte 1 pour rénitialiser 
+                  e.target.value = 1;
+                }    
                 localStorage.setItem("obj", JSON.stringify(products));
+                getTotalPrice();       
               })
-            });
-                          ////////////QUANTITE FINAL///////////
-            let totalQuantity = [];
-
-              for (let i = 0; i < getLocalStorageCart.length; i++) {
-                let quantiyAccum = getLocalStorageCart[i].quantite;
-                parseQuantite = parseInt(quantiyAccum)
-                totalQuantity.push(parseQuantite);
-
-                const quantityFinal = totalQuantity.reduce(
-                  (accumulator, currentValue) => accumulator + currentValue
-                );
-
-                const getQuantity = document.getElementById('totalQuantity');
-
-                getQuantity.textContent = quantityFinal;
-                }
+            });             
       })
   }
   )
 }
-                       //////////////PRIX FINAL////////////////////
-getLocalStorageCart.forEach(element => {
-  fetch(`http://localhost:3000/api/products/${element.id}`)
-  .then(data => data.json())
-  .then(jsonAffiche => {
+                       //////////////QUANTITE ET PRIX FINAL////////////////////
+function getTotalPrice() {
+  const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
+  let sommeTotal = 0;
+  let quantiyTotal = 0;
+  getLocalStorageCart.forEach(element => {
+    fetch(`http://localhost:3000/api/products/${element.id}`)
+    .then(data => data.json())
+    .then(jsonAffiche => {
+      quantiyTotal += parseInt(element.quantite);
+      sommeTotal += jsonAffiche.price*element.quantite;
+      document.getElementById("totalPrice").textContent = sommeTotal;
+      document.getElementById("totalQuantity").textContent = quantiyTotal;
+        } 
+        )
+    });
+}
 
-    // let totalPrice = [];
-
-      //  for (let i in jsonAffiche) {
-      //   const priceJson = jsonAffiche.price
-      //    console.log(priceJson);
-      //    parsePrice = parseInt(priceJson)
-      //   // let priceAccum = i;
-      //   // console.log(priceAccum);
-      //   // totalPrice.push(priceAccum);
-      //   // console.log(totalPrice);
-      //  }
-      let totalPrice = [];
-
-       if (jsonAffiche) {
-        let priceJson = jsonAffiche.price;
-        //console.log(priceJson);
-        //parsePrice = parseInt(priceJson);
-        //console.log(parsePrice);
-        totalPrice.push(priceJson);
-        console.log(totalPrice);
-
-        const priceFinal = totalPrice.reduce(
-          (accumulator, currentValue) => accumulator + currentValue
-        );
-
-        const getPrice = document.getElementById('totalPrice');
-    
-        getPrice.textContent = priceFinal
-       }
-  });
-})
 
 
 // function validation()
@@ -141,4 +113,45 @@ getLocalStorageCart.forEach(element => {
 // return false;
 // }
 
+//'.cart__order__form'
+// document.querySelector('.cart__order__form').addEventListener("input", function(e) {
+//   e.preventDefault();
 
+//   let firstName = document.getElementById('firstName').value;
+//   let lastName = document.getElementById('lastName').value;
+//   let address = document.getElementById('address').value;
+//   let city = document.getElementById('city').value;
+//   let email = document.getElementById('email').value;
+//   //let commander = document.getElementById('order').value;
+  
+//   const obj = {
+//     firstName,
+//     lastName,
+//     address,
+//     city,
+//     email,
+//   }
+//   console.log(obj);
+
+//   function isNumber(num) {
+//     return (num.length > 0 && !isNaN(num))
+//   }
+
+
+  // if (firstName!=null) {
+  //   document.getElementById('firstName').style.background ='rgb(0,128,0)'
+  //   document.getElementById('firstNameErrorMsg').textContent = '';
+  // } else {
+  //   document.getElementById('firstNameErrorMsg').innerHTML = `Prénom invalide`;
+  //   document.getElementById('firstName').style.background = 'rgb(255,0,0)';
+  // }
+
+  // fetch('http://localhost:3000/api/products/oder', {
+  //   method: 'POST',
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json;charset=utf-8'
+  //   },
+  //   body: JSON.stringify(obj)
+  // })
+//})
