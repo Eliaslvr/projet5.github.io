@@ -101,56 +101,80 @@ let form = document.querySelector(".cart__order__form");
  /////PRENOM/////
 form.firstName.addEventListener('input', function() {
   let RegExpFirstName = new RegExp('^[A-Z][A-Za-z\é\è\ê\-]+$', 'g');
+  firstNameError = document.getElementById('firstNameErrorMsg');
 
   let prenom = form.firstName.value;
-  console.log(prenom);
+
 
   if(RegExpFirstName.test(prenom)) {
-    document.getElementById('firstNameErrorMsg').innerHTML = "Prénom Validé";
-    //firstName.style.background = "green";
-  } else if (prenom == null){
-    document.getElementById('firstNameErrorMsg').innerHTML = "";
+    firstNameError.innerHTML = "Prénom Validé";
+    firstNameError.style.color = "rgb(25, 230, 29)";
   } else if (RegExpFirstName.test(prenom) == false) {
-    document.getElementById('firstNameErrorMsg').innerHTML = "Prénom Non Validé";
+    firstNameError.innerHTML = "Prénom Non Validé";
+    firstNameError.style.color = "red";
+  }
+   
+  if (!prenom){
+    firstNameError.innerHTML = "";
   }
 });
 
 form.lastName.addEventListener('input', function() {
   // let RegExpLastName = new RegExp('^[A-Z][A-Za-z\é\è\ê\-]+$', 'g');
-  let RegExpLastName = new RegExp('^[a-zA-Z ]+$', 'g');
+  let RegExpLastName = new RegExp('^[A-Z]+$', 'g');
 
   let nom = form.lastName.value;
+  const lastNameError = document.getElementById('lastNameErrorMsg');
 
   if(RegExpLastName.test(nom)) {
-    document.getElementById('lastNameErrorMsg').innerHTML = "Nom Validé";
+    lastNameError.innerHTML = "Nom Validé";
+    lastNameError.style.color = "rgb(25, 230, 29)";
   } else {
-    document.getElementById('lastNameErrorMsg').innerHTML = "Nom Non Validé"
+    lastNameError.innerHTML = "Nom Non Validé"
+    lastNameError.style.color = "red";
+  }
+  if (!nom){
+    lastNameError.innerHTML = "";
   }
 });
 
 form.address.addEventListener('input', function() {
   // let RegExpAddress = new RegExp('/^[A-Za-z0-9]{5,50}$/', 'g');
+  // ^.+
   let RegExpAddress = new RegExp('[A-Za-z0-9$]$');
 
   let adresse = form.address.value;
+  const adressError = document.getElementById('addressErrorMsg');
 
   if(RegExpAddress.test(adresse)) {
-    document.getElementById('addressErrorMsg').innerHTML = "Adresse Validé";
+    adressError.innerHTML = "Adresse Validé";
+    adressError.style.color = "rgb(25, 230, 29)";
   } else {
-    document.getElementById('addressErrorMsg').innerHTML = "Adresse Non Validé"
+    adressError.innerHTML = "Adresse Non Validé";
+    adressError.style.color = "red";
+  }
+  if (!adresse){
+    adressError.innerHTML = "";
   }
 });
 
 form.city.addEventListener('input', function() {
   // let RegExpCity = new RegExp('/^[A-Za-z0-9]{5,50}$/', 'g');
+  // ^[A-Z][a-z]+([\s-][A-Z][a-z]+)*$
   let RegExpCity = new RegExp(`[A-Za-z]`, 'g');
 
   let city = form.city.value;
+  const cityError = document.getElementById('cityErrorMsg');
 
   if(RegExpCity.test(city)) {
-    document.getElementById('cityErrorMsg').innerHTML = "Ville Validé";
+    cityError.innerHTML = "Ville Validé";
+    cityError.style.color = "rgb(25, 230, 29)";
   } else {
-    document.getElementById('cityErrorMsg').innerHTML = "Ville Non Validé"
+    cityError.innerHTML = "Ville Non Validé";
+    cityError.style.color = "red";
+  }
+  if (!city){
+    cityError.innerHTML = "";
   }
 });
 
@@ -158,150 +182,116 @@ form.email.addEventListener('input', function() {
   let RegExpEmail = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
 
   let email = form.email.value;
+  const emailError = document.getElementById('emailErrorMsg');
 
   if(RegExpEmail.test(email)) {
-    document.getElementById('emailErrorMsg').innerHTML = "Email Validé";
-    let emailcolor = document.getElementById('email')
-    //emailcolor.removeAttr("style")
-    //emailcolor.style.background = "green";
+    emailError.innerHTML = "Email Validé";
+    emailError.style.color = "rgb(25, 230, 29)";
   } else {
-    document.getElementById('emailErrorMsg').innerHTML = "Email Non Validé"
-    //emailcolor.removeAttr("style")
-    //emailcolor.style.background = "red";
+    emailError.innerHTML = "Email Non Validé"
+    emailError.style.color = "red";
+  }
+  if (!email){
+    emailError.innerHTML = "";
   }
 });
 
-// form.lastName.addEventListener('input', function() {
-//   validEmail(this);
-// });
-
-// const validLastName = function(inputEmail) {
-//   //Creation de la reg pour validation email
-//   let emailRegExp = new RegExp(
-//     '^[A-Z][A-Za-z\é\è\ê\-]+$', 'g'
-//     );
-
-//     //Recuperation de la base SMALL
-//     let small = inputEmail.nextElementSibling; //Attrappe l'element qui suit
-
-//     //On test l'expression reguliere
-//     if(emailRegExp.test(inputEmail.value) == true){
-//       small.innerHTML = "Adresse Valide";
-//       // small.classList.remove('text-danger');//remove signifie retiré cette classe si elle est présente
-//       // small.classList.add('text-success');
-//     } else {
-//       small.innerHTML = "Adresse Non Valide";
-//       //document.getElementById('email').style.background = "red"
-//       // small.classList.remove('text-success');
-//       // small.classList.add('text-danger');
+// form.addEventListener('input', function() {
+//     let valeurFormulaire = {
+//       firstName: form.firstName.value,
+//       lastName: form.lastName.value,
+//       adress: form.address.value,
+//       city: form.city.value,
+//       email: form.email.value
 //     }
-// };
-
-// form.email.addEventListener('change', function() {
-//   validEmail(this);
-// });
-
-// const validEmail = function(inputEmail) {
-//   //Creation de la reg pour validation email
-//   let emailRegExp = new RegExp(
-//     '^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g'
-//     );
-
-//     //Recuperation de la base SMALL
-//     let small = inputEmail.nextElementSibling; //Attrappe l'element qui suit
-
-//     //On test l'expression reguliere
-//     if(emailRegExp.test(inputEmail.value) == true){
-//       small.innerHTML = "Adresse Valide";
-//       // small.classList.remove('text-danger');//remove signifie retiré cette classe si elle est présente
-//       // small.classList.add('text-success');
-//     } else {
-//       small.innerHTML = "Adresse Non Valide";
-//       //document.getElementById('email').style.background = "red"
-//       // small.classList.remove('text-success');
-//       // small.classList.add('text-danger');
-//     }
-// };
+//     console.log(valeurFormulaire);
+//   })
 
 
+document.getElementById('order').addEventListener("click", (event) => {
+  event.preventDefault();
+  let valeurForm = {
+    firstName: form.firstName.value,
+    lastName: form.lastName.value,
+    adress: form.address.value,
+    city: form.city.value,
+    email: form.email.value
+  }
+  if (valeurForm.firstName == "" || valeurForm.lastName == "" || valeurForm.adress == "" || valeurForm.city == "" || valeurForm.email == "") {
+    alert("Veuillez replir tout le formulaire pour pouvoir validé votre commande")
+   } else {
+     fetch("https://jsonplaceholder.typicode.com/posts", {
+       method: "POST",
+       body: JSON.stringify({
+         valeurForm
+       }),
+       headers: {
+         "Content-type": "application/json; charset=UTF-8",
+       },
+     })
+     .then((response) => response.json())
+     .then((json) => console.log(json));
+   }
+})
 
-// let cartOrder = document.querySelector('.cart__order__form');
+  
 
-// cartOrder.addEventListener('input', function(e) {
-
-//   let name = document.getElementById('lastName');
-//   let regex = /^[a-zA-Z\s]+$/;
-
-//   if (name.value == "") {
-//     let error = document.getElementById('firstNameErrorMsg');
-//     error.innerHTML = "Le champ est requis";
-//     error.style.color = "red";
-//     name.style.background = "red";
-//     e.preventDefault();
-//   } else if (regex.test(name.value) == false) {
-//     let error = document.getElementById('firstNameErrorMsg');
-//     error.innerHTML = "Le champ doit comporter des lettres uniquement";
-//     error.style.color = "red";
-//     name.style.background = "red";
-//     e.preventDefault();
+// form.addEventListener('input', function(e) {
+//   e.preventDefault();
+//   const donneesFormulaire = new FormData(form);
+//   fetch('http://localhost:3000/api/products/order ', {
+//     method: 'POST',
+//     body: JSON.stringify(donneesFormulaire)
+//   })
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log(data);
+//   })
+// })
+// form.addEventListener('input', function() {
+//   let valeurFormulaire = {
+//     firstName: form.firstName.value,
+//     lastName: form.lastName.value,
+//     adress: form.address.value,
+//     city: form.city.value,
+//     email: form.email.value
 //   }
+//   console.log(valeurFormulaire);
 // })
 
-// function validation()
-// {
-// var expressionReguliere = /^(([^<>()[]\.,;:s@]+(.[^<>()[]\.,;:s@]+)*)|(.+))@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}])|(([a-zA-Z-0-9]+.)+[a-zA-Z]{2,}))$/;
-// if (expressionReguliere.test(document.getElementById(email).value))
-// {
-// document.getElementById(email).innerHTML = `L'adresse mail est valide`;
-// document.getElementById(email).style.color = green;
-// }
-// else
-// {
-// document.getElementById(email).innerHTML = `L'adresse mail n'est pas valide`;
-// document.getElementById(email).style.color = red;
-// }
-// return false;
-// }
-
-//'.cart__order__form'
-// document.querySelector('.cart__order__form').addEventListener("input", function(e) {
-//   e.preventDefault();
-
-//   let firstName = document.getElementById('firstName').value;
-//   let lastName = document.getElementById('lastName').value;
-//   let address = document.getElementById('address').value;
-//   let city = document.getElementById('city').value;
-//   let email = document.getElementById('email').value;
-//   //let commander = document.getElementById('order').value;
-  
-//   const obj = {
-//     firstName,
-//     lastName,
-//     address,
-//     city,
-//     email,
+// const sendForm = async (contact, products) => {
+//   let order = {
+//     firstName: form.firstName.value,
+//     lastName: form.lastName.value,
+//     adress: form.address.value,
+//     city: form.city.value,
+//     email: form.email.value
 //   }
-//   console.log(obj);
+//   const response = await fetch(" http://localhost:3000/api/products/order ", {
+//     method: "POST",
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//     body: JSON.stringify(contact, products),
+//   })
+//   const dataRes = await response.json();
+//   console.log(dataRes)
+//   return dataRes;
+// } 
 
-//   function isNumber(num) {
-//     return (num.length > 0 && !isNaN(num))
+
+// document.getElementById('order').addEventListener('input', function() {
+
+//   const sendForm = async (contact, products) => {
+//     const response = await fetch(" http://localhost:3000/api/products/order ", {
+//       method: "POST",
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(contact, products),
+//     })
+//     const dataRes = await response.json();
+//     console.log(dataRes)
+//     return dataRes;
 //   }
-
-
-  // if (firstName!=null) {
-  //   document.getElementById('firstName').style.background ='rgb(0,128,0)'
-  //   document.getElementById('firstNameErrorMsg').textContent = '';
-  // } else {
-  //   document.getElementById('firstNameErrorMsg').innerHTML = `Prénom invalide`;
-  //   document.getElementById('firstName').style.background = 'rgb(255,0,0)';
-  // }
-
-  // fetch('http://localhost:3000/api/products/oder', {
-  //   method: 'POST',
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json;charset=utf-8'
-  //   },
-  //   body: JSON.stringify(obj)
-  // })
-//})
+// })
