@@ -4,14 +4,14 @@ getTotalPrice();
 const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
 const afficheElement = document.querySelector('#cart__items');
 
-if (!getLocalStorageCart) {
-  const panierVide = `
-    <div id="cart__items">
-        <div>Le panier est vide</div>
-    </div>
-    `
-  afficheElement.innerHTML = panierVide
-} else {
+// if (!getLocalStorageCart) {
+//   const panierVide = `
+//     <div id="cart__items">
+//         <div>Le panier est vide</div>
+//     </div>
+//     `
+//   afficheElement.innerHTML = panierVide
+// } else {
   getLocalStorageCart.forEach((element) => { 
     fetch(`http://localhost:3000/api/products/${element.id}`)
       .then(data => data.json())
@@ -79,7 +79,7 @@ if (!getLocalStorageCart) {
       })
   }
   )
-}
+//}
                        //////////////QUANTITE ET PRIX FINAL////////////////////
 function getTotalPrice() {
   const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
@@ -234,8 +234,8 @@ const commande = document.querySelector('.cart__order__form');
 
 commande.addEventListener('submit', (event) => {
   event.preventDefault();
-  const datlocalStorageAll = JSON.parse(localStorage.getItem('obj'));
-    if (datlocalStorageAll.length > 0) {
+  const datalocalStorageAll = JSON.parse(localStorage.getItem('obj'));
+    if (datalocalStorageAll.length > 0) {
         if (
           formFirstnameIsValid && 
           formLastnameIsValid && 
@@ -249,7 +249,7 @@ commande.addEventListener('submit', (event) => {
             const city = document.getElementById('city').value
             const email = document.getElementById('email').value
 
-            const products = datlocalStorageAll.map(element => element.id);
+            const products = datalocalStorageAll.map(element => element.id);
             const contact = {
               firstName,
               lastName,
@@ -268,8 +268,23 @@ commande.addEventListener('submit', (event) => {
               body:dataInformation
             }).then(reponse => reponse.json())
               .then(dataResponse => {
-                console.log(dataResponse);
+                console.log(dataResponse.orderId);
+                window.location.href = `/front/html/confirmation.html?commande=${dataResponse.orderId}`
             })
+            window.confirm("Etes-vous sur de vouloir validé votre commande ?")
+            if (true) {
+              localStorage.clear();
+              sessionStorage.clear();
+              const afficheElement = document.querySelector('#cart__items');
+              const panierVide = `<div id="cart__items">
+                                  <div>Le panier est vide</div>
+                                  </div>`
+              afficheElement.innerHTML = panierVide
+              afficheElement.style.fontSize = "25px";
+              afficheElement.style.textAlign = "center";
+              document.getElementById("totalPrice").textContent = 0;
+              document.getElementById("totalQuantity").textContent = "0";
+            } 
         } else {
           alert('veillez à bien remplir tout les champs')
         }
@@ -277,3 +292,7 @@ commande.addEventListener('submit', (event) => {
       alert('veillez ajouter un produit au panier avant tout')
     }
 });
+
+
+
+
