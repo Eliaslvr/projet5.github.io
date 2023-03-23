@@ -1,3 +1,5 @@
+// const { log } = require("console");
+
 getTotalPrice();
 const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
 const afficheElement = document.querySelector('#cart__items');
@@ -50,6 +52,7 @@ if (!getLocalStorageCart) {
               products.splice(produitFind, 1);
               localStorage.setItem("obj", JSON.stringify(products));
               location.reload();
+              e.preventDefault();
             })
           });
 
@@ -82,36 +85,52 @@ function getTotalPrice() {
   const getLocalStorageCart = JSON.parse(localStorage.getItem('obj'));
   let sommeTotal = 0;
   let quantiyTotal = 0;
+  if(getLocalStorageCart == 0) {
+    const afficheElement = document.querySelector('#cart__items');
+    const panierVide = `<div id="cart__items">
+                        <div>Le panier est vide</div>
+                        </div>`
+    afficheElement.innerHTML = panierVide
+    afficheElement.style.fontSize = "25px";
+    afficheElement.style.textAlign = "center";
+    document.getElementById("totalPrice").textContent = 0;
+    document.getElementById("totalQuantity").textContent = "0";
+  } else {
   getLocalStorageCart.forEach(element => {
     fetch(`http://localhost:3000/api/products/${element.id}`)
     .then(data => data.json())
     .then(jsonAffiche => {
-      quantiyTotal += parseInt(element.quantite);
-      sommeTotal += jsonAffiche.price*element.quantite;
-      document.getElementById("totalPrice").textContent = sommeTotal;
-      document.getElementById("totalQuantity").textContent = quantiyTotal;
-        } 
+        quantiyTotal += parseInt(element.quantite);
+        sommeTotal += jsonAffiche.price*element.quantite;
+        document.getElementById("totalPrice").textContent = sommeTotal;
+        document.getElementById("totalQuantity").textContent = quantiyTotal;
+      } 
+   ) }
         )
-    });
-}
+    };}
 
 
 let form = document.querySelector(".cart__order__form");
-
- /////PRENOM/////
+let formFirstnameIsValid = false;
+let formLastnameIsValid = false;
+let formAdressIsValid = false;
+let formCityIsValid = false;
+let formEmailIsValid = false;
+//  /////PRENOM/////
 form.firstName.addEventListener('input', function() {
   let RegExpFirstName = new RegExp('^[A-Z][A-Za-z\é\è\ê\-]+$', 'g');
   firstNameError = document.getElementById('firstNameErrorMsg');
-
   let prenom = form.firstName.value;
 
 
   if(RegExpFirstName.test(prenom)) {
     firstNameError.innerHTML = "Prénom Validé";
     firstNameError.style.color = "rgb(25, 230, 29)";
+    formFirstnameIsValid = true;
   } else if (RegExpFirstName.test(prenom) == false) {
     firstNameError.innerHTML = "Prénom Non Validé";
     firstNameError.style.color = "red";
+    formFirstnameIsValid = false;
   }
    
   if (!prenom){
@@ -122,16 +141,17 @@ form.firstName.addEventListener('input', function() {
 form.lastName.addEventListener('input', function() {
   // let RegExpLastName = new RegExp('^[A-Z][A-Za-z\é\è\ê\-]+$', 'g');
   let RegExpLastName = new RegExp('^[A-Z]+$', 'g');
-
   let nom = form.lastName.value;
   const lastNameError = document.getElementById('lastNameErrorMsg');
 
   if(RegExpLastName.test(nom)) {
     lastNameError.innerHTML = "Nom Validé";
     lastNameError.style.color = "rgb(25, 230, 29)";
+    formLastnameIsValid = true;
   } else {
     lastNameError.innerHTML = "Nom Non Validé"
     lastNameError.style.color = "red";
+    formLastnameIsValid = false;
   }
   if (!nom){
     lastNameError.innerHTML = "";
@@ -142,36 +162,39 @@ form.address.addEventListener('input', function() {
   // let RegExpAddress = new RegExp('/^[A-Za-z0-9]{5,50}$/', 'g');
   // ^.+
   let RegExpAddress = new RegExp('[A-Za-z0-9$]$');
-
   let adresse = form.address.value;
   const adressError = document.getElementById('addressErrorMsg');
 
   if(RegExpAddress.test(adresse)) {
     adressError.innerHTML = "Adresse Validé";
     adressError.style.color = "rgb(25, 230, 29)";
+    formAdressIsValid = true;
   } else {
     adressError.innerHTML = "Adresse Non Validé";
     adressError.style.color = "red";
+    formAdressIsValid = false;
   }
   if (!adresse){
     adressError.innerHTML = "";
   }
 });
 
+
 form.city.addEventListener('input', function() {
   // let RegExpCity = new RegExp('/^[A-Za-z0-9]{5,50}$/', 'g');
   // ^[A-Z][a-z]+([\s-][A-Z][a-z]+)*$
   let RegExpCity = new RegExp(`[A-Za-z]`, 'g');
-
   let city = form.city.value;
   const cityError = document.getElementById('cityErrorMsg');
 
   if(RegExpCity.test(city)) {
     cityError.innerHTML = "Ville Validé";
     cityError.style.color = "rgb(25, 230, 29)";
+    formCityIsValid = true;
   } else {
     cityError.innerHTML = "Ville Non Validé";
     cityError.style.color = "red";
+    formCityIsValid = false;
   }
   if (!city){
     cityError.innerHTML = "";
@@ -180,118 +203,77 @@ form.city.addEventListener('input', function() {
 
 form.email.addEventListener('input', function() {
   let RegExpEmail = new RegExp('^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$', 'g');
-
   let email = form.email.value;
+
   const emailError = document.getElementById('emailErrorMsg');
 
   if(RegExpEmail.test(email)) {
     emailError.innerHTML = "Email Validé";
     emailError.style.color = "rgb(25, 230, 29)";
+    formEmailIsValid=true
   } else {
     emailError.innerHTML = "Email Non Validé"
     emailError.style.color = "red";
+    formEmailIsValid=false
   }
   if (!email){
     emailError.innerHTML = "";
   }
 });
+//   //  if (window.confirm("Do you really want to leave?")) {
+//   //   window.open("index.html", "Thanks for Visiting!");
+//   // }
+//   // window.confirm("Etes-vous sur de vouloir validé votre commande ?")
+//   // if (true) {
+//   //   localStorage.clear();
+//   // }  
+//   }
+// )
 
-// form.addEventListener('input', function() {
-//     let valeurFormulaire = {
-//       firstName: form.firstName.value,
-//       lastName: form.lastName.value,
-//       adress: form.address.value,
-//       city: form.city.value,
-//       email: form.email.value
-//     }
-//     console.log(valeurFormulaire);
-//   })
+const commande = document.querySelector('.cart__order__form');
 
-
-document.getElementById('order').addEventListener("click", (event) => {
+commande.addEventListener('submit', (event) => {
   event.preventDefault();
-  let valeurForm = {
-    firstName: form.firstName.value,
-    lastName: form.lastName.value,
-    adress: form.address.value,
-    city: form.city.value,
-    email: form.email.value
-  }
-  if (valeurForm.firstName == "" || valeurForm.lastName == "" || valeurForm.adress == "" || valeurForm.city == "" || valeurForm.email == "") {
-    alert("Veuillez replir tout le formulaire pour pouvoir validé votre commande")
-   } else {
-     fetch("https://jsonplaceholder.typicode.com/posts", {
-       method: "POST",
-       body: JSON.stringify({
-         valeurForm
-       }),
-       headers: {
-         "Content-type": "application/json; charset=UTF-8",
-       },
-     })
-     .then((response) => response.json())
-     .then((json) => console.log(json));
-   }
-})
+  const datlocalStorageAll = JSON.parse(localStorage.getItem('obj'));
+    if (datlocalStorageAll.length > 0) {
+        if (
+          formFirstnameIsValid && 
+          formLastnameIsValid && 
+          formAdressIsValid &&
+          formCityIsValid &&
+          formEmailIsValid
+          ) {
+            const firstName = document.getElementById('firstName').value
+            const lastName = document.getElementById('lastName').value
+            const address = document.getElementById('address').value
+            const city = document.getElementById('city').value
+            const email = document.getElementById('email').value
 
-  
+            const products = datlocalStorageAll.map(element => element.id);
+            const contact = {
+              firstName,
+              lastName,
+              address,
+              city,
+              email
+            }
 
-// form.addEventListener('input', function(e) {
-//   e.preventDefault();
-//   const donneesFormulaire = new FormData(form);
-//   fetch('http://localhost:3000/api/products/order ', {
-//     method: 'POST',
-//     body: JSON.stringify(donneesFormulaire)
-//   })
-//   .then(response => response.json())
-//   .then(data => {
-//     console.log(data);
-//   })
-// })
-// form.addEventListener('input', function() {
-//   let valeurFormulaire = {
-//     firstName: form.firstName.value,
-//     lastName: form.lastName.value,
-//     adress: form.address.value,
-//     city: form.city.value,
-//     email: form.email.value
-//   }
-//   console.log(valeurFormulaire);
-// })
+            const dataInformation = JSON.stringify({contact, products});
 
-// const sendForm = async (contact, products) => {
-//   let order = {
-//     firstName: form.firstName.value,
-//     lastName: form.lastName.value,
-//     adress: form.address.value,
-//     city: form.city.value,
-//     email: form.email.value
-//   }
-//   const response = await fetch(" http://localhost:3000/api/products/order ", {
-//     method: "POST",
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(contact, products),
-//   })
-//   const dataRes = await response.json();
-//   console.log(dataRes)
-//   return dataRes;
-// } 
-
-
-// document.getElementById('order').addEventListener('input', function() {
-
-//   const sendForm = async (contact, products) => {
-//     const response = await fetch(" http://localhost:3000/api/products/order ", {
-//       method: "POST",
-//       headers: {
-//         'Content-Type': 'application/json',
-//       },
-//       body: JSON.stringify(contact, products),
-//     })
-//     const dataRes = await response.json();
-//     console.log(dataRes)
-//     return dataRes;
-//   }
-// })
+            fetch('http://localhost:3000/api/products/order',{
+              method:"POST",
+              headers:{
+                "Content-Type" :"application/json"
+              },
+              body:dataInformation
+            }).then(reponse => reponse.json())
+              .then(dataResponse => {
+                console.log(dataResponse);
+            })
+        } else {
+          alert('veillez à bien remplir tout les champs')
+        }
+    }else{
+      alert('veillez ajouter un produit au panier avant tout')
+    }
+});
